@@ -1,17 +1,30 @@
-import { logHandler } from "./utils/logHandler";
+import { Client } from "discord.js";
+import { scheduleJob } from "node-schedule";
 
-/**
- * The linter will expect JSDoc declarations for all exported functions.
- *
- * @param {string} name Variables should be typed, and full sentences are expected.
- * @returns {string} The return type should be specified.
- */
-const main = (name: string): string => {
-  const string = `Hello ${name}!`;
-  logHandler.log("info", string);
-  return string;
-};
+import { IntentOptions } from "./config/IntentOptions";
+import { ExtendedClient } from "./interfaces/ExtendedClient";
+import { postMessage } from "./utils/postMessage";
+import { validateEnv } from "./utils/validateEnv";
 
-main("Naomi");
+(async () => {
+  const bot = new Client({ intents: IntentOptions }) as ExtendedClient;
+  bot.env = validateEnv();
 
-export default main;
+  bot.on("ready", async () => {
+    await bot.env.debugHook.send(`Bot has authenticated as ${bot.user?.tag}`);
+    scheduleJob("0 9 * * *", async () => {
+      await postMessage(bot);
+    });
+  });
+
+  bot.on("messageCreate", async (message) => {
+    if (
+      message.author.id === "465650873650118659" &&
+      message.content === "~post"
+    ) {
+      await postMessage(bot);
+    }
+  });
+
+  await bot.login(bot.env.token);
+})();
