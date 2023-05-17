@@ -12,7 +12,7 @@ import { validateEnv } from "./utils/validateEnv";
 
   bot.on("ready", async () => {
     await bot.env.debugHook.send(`Bot has authenticated as ${bot.user?.tag}`);
-    scheduleJob("0 9 * * *", async () => {
+    scheduleJob("0 7 * * *", async () => {
       await postMessage(bot);
     });
   });
