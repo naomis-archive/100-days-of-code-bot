@@ -20,5 +20,8 @@ export const postMessage = async (bot: ExtendedClient) => {
     );
     return;
   }
-  await channel.send({ content: DailyMessage });
+  await channel.send({
+    content: DailyMessage,
+    allowedMentions: { roles: ["1108444569198137425"] },
+  });
 };
