@@ -18,7 +18,7 @@ If you would like to contribute to the project, you may create a Pull Request co
 
 Before interacting with our community, please read our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-# License
+## License
 
 This software is licensed under our [global software license](https://docs.nhcarrigan.com/#/license).
 
