@@ -15,9 +15,14 @@ export const postMessage = async (bot: ExtendedClient) => {
     guild.channels.cache.get(bot.env.postChannel) ||
     (await guild.channels.fetch(bot.env.postChannel));
   if (!channel || !("send" in channel)) {
-    await bot.env.debugHook.send(
-      "The channel specified in POST_CHANNEL does not exist or is not a text channel."
-    );
+    await bot.env.debugHook.send({
+      content:
+        "The channel specified in POST_CHANNEL does not exist or is not a text channel.",
+      username: bot.user?.username ?? "100 Days of Code",
+      avatarURL:
+        bot.user?.displayAvatarURL() ??
+        "https://cdn.nhcarrigan.com/avatars/nhcarrigan.png",
+    });
     return;
   }
   await channel.send({

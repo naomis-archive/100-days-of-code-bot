@@ -11,7 +11,13 @@ import { validateEnv } from "./utils/validateEnv";
   bot.env = validateEnv();
 
   bot.on("ready", async () => {
-    await bot.env.debugHook.send(`Bot has authenticated as ${bot.user?.tag}`);
+    await bot.env.debugHook.send({
+      content: `Bot has authenticated as ${bot.user?.tag}`,
+      username: bot.user?.username ?? "100 Days of Code",
+      avatarURL:
+        bot.user?.displayAvatarURL() ??
+        "https://cdn.nhcarrigan.com/avatars/nhcarrigan.png",
+    });
     scheduleJob("0 7 * * *", async () => {
       await postMessage(bot);
     });
